@@ -1,0 +1,211 @@
+@charset "UTF-8";
+/* google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+
+/*
+COLORS
+================================================ */
+:root {
+  --main-color: #ff8fa9;
+  --base-color: #ffeee8;
+  --white: #fff;
+  --font-color: #3d3333;
+  --font-japanese: 'Noto Sans JP', sans-serif; /* 100 - 900 */
+  --font-title: 'RocknRoll One', sans-serif; /* 400 nomal */
+}
+
+/*
+    GENERAL STYLING
+================================================ */
+html {
+  font-size: 100%;
+}
+body {
+  background-color: var(--base-color);
+  color: var(--font-color);
+  font-family: var(--font-japanese);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
+
+/*
+    COMMON
+================================================ */
+a {
+  color: var(--main-color);
+  text-decoration: none;
+}
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+}
+
+/* layout */
+.wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin-inline: auto;
+  padding: 1rem 1rem;
+}
+
+h1,
+h2 {
+  font-size: 2rem;
+}
+/*
+    HEADER
+================================================ */
+.header {
+  background-color: var(--main-color);
+  height: 300px;
+  display: grid;
+  place-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  position: absolute;
+  bottom: -50px;
+  right: 10%;
+  display: block;
+  width: 160px;
+  height: 160px;
+  content: '';
+  background-image: url(../images/header-img.png);
+  background-size: cover;
+}
+@media (min-width: 600px) {
+  .header::before {
+    right: 30%;
+  }
+}
+.header::before {
+  animation-name: risu;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+@keyframes risu {
+  0% {
+    bottom: -50px;
+  }
+  25% {
+    bottom: -50px;
+  }
+  50% {
+    bottom: -50px;
+  }
+  75% {
+    bottom: -45px;
+  }
+  100% {
+    bottom: -50px;
+  }
+}
+.title {
+  color: var(--white);
+  font-family: var(--font-title);
+  font-size: 2.5rem;
+  @media (600px < width) {
+    font-size: 3rem;
+  }
+}
+/*
+    MAIN
+================================================ */
+main {
+  padding: 1rem 0 2rem;
+}
+.sub-title {
+  font-family: var(--font-title);
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+form {
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.input-area {
+  margin-bottom: 0.5rem;
+}
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.125rem;
+}
+input[type='text'],
+textarea {
+  border: 2px solid var(--base-color);
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+}
+textarea {
+  width: 100%;
+  height: 100px;
+}
+
+.button {
+  background-color: var(--main-color);
+  color: var(--white);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 2rem;
+  border: 2px solid var(--main-color);
+  border-radius: 50px;
+  width: 100%;
+  transition: 0.4s;
+  margin-top: 1rem;
+  @media (600px < width) {
+    width: 250px;
+  }
+}
+.button:hover {
+  background-color: var(--white);
+  color: var(--main-color);
+}
+.post-container {
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.post-content {
+  padding: 0.5rem 0;
+}
+.bold {
+  font-weight: 600;
+}
+.post-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 0.25rem 0;
+}
+.post-content:not(:last-child) {
+  border-bottom: 2px dashed var(--main-color);
+}
+.text-right {
+  text-align: right;
+}
+.margin-right {
+  margin-right: 0.5rem;
+}
+
+/*
+    MAIN
+================================================ */
+footer {
+  background-color: var(--main-color);
+  padding: 0.75rem;
+  text-align: center;
+}
+.copy {
+  color: var(--white);
+  font-size: 0.875rem;
+}
