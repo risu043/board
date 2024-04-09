@@ -1,8 +1,9 @@
 <?php
     class PostTable {
-        const DSN = 'mysql:dbname=sample;host=localhost';
+        const DSN = 'mysql:dbname=sumple;host=localhost';
         const USER = 'root';
         const PASSWORD = '';
+
         
         // データベースに接続
         private function connectDB() {
@@ -36,22 +37,30 @@
             return $regist;
         }
 
+        // 検索ワードを含むポストを取得
+        public function searchPosts($word) {
+            //データベースに接続
+            $pdo = $this->connectDB();
+            //SQLを準備
+            $search = $pdo->prepare("SELECT * FROM post WHERE contents LIKE ?");
+            // バインドパラメータの設定
+            $search->bindValue(1, "%$word%", PDO::PARAM_STR);
+            //クエリを実行
+            $search->execute();
+            //データベースを閉じる
+            $this->closeDB($pdo);
+            
+            // 結果を取得して返す
+            return $search->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         // ポストを投稿する
         public function insertPost($id, $name, $contents, $image) {
-            $errors = [];
-            if($_POST){
-                $id = null;
                 $name = $_POST["name"];
                 $contents = $_POST["contents"];
-                // $nameか$contentsが空欄だったらerror
-                if(empty($name)){
-                    $errors[] .= "名前を入力してください";
-                }
-                if(empty($contents)){
-                    $errors[] .= "投稿内容を入力してください";
-                }
-                // errorがなければクエリを実行
-                if(!$errors){
+                
+                // 空欄がなければクエリを実行
+                if (!empty($name) && !empty($contents)) {
                     //投稿時間を日本の時間で取得
                     date_default_timezone_set('Asia/Tokyo');
                     $created_at = date("Y-m-d H:i:s");
@@ -82,10 +91,7 @@
                     $this->closeDB($pdo);
                     // 投稿内容を返す
                     return $regist;
-                } else {
-                    return $errors;
-                }
-            }
+                } 
         }
 
         public function deletePost($id) {

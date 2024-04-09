@@ -33,29 +33,15 @@
             <div id="error">
                 <?php
                 $errors = [];
-                if (isset($_POST['submit'])) {
-                    $name = $_POST["name"];
-                    $contents = $_POST["contents"];
-                    if (empty($name)) {
-                        $errors[] = "名前を入力してください";
-                    }
-                    if (empty($contents)) {
-                        $errors[] = "投稿内容を入力してください";
-                    }
-                }
-                
-                // エラーメッセージがある場合にのみ表示する
-                if (!empty($errors)) {
-                    foreach ($errors as $error) {
-                        echo $error . "<br>";
-                    }
+                foreach($errors as $error){
+                echo $error."<br>";
                 } ?>
             </div>
             <form action="send.php" method="post" enctype="multipart/form-data">
                 <div class="input-area"><label for="name">名前</label> <input type="text" id="name" name="name" value=""></div>
                 <div class="input-area"><label for="contents">投稿内容</label> <textarea type="text" id="contents" name="contents" value=""></textarea></div>
                 <div class="input-area"><label for="image">添付画像</label> <input type="file" id="image" name="image"></div>
-                <button class="button" type="submit" name="submit">投稿</button>
+                <button class="button" type="submit">投稿</button>
             </form>
         </section>
         
@@ -64,19 +50,22 @@
             <h2 class="sub-title">投稿検索</h2>
             <form action="search.php" method="post">
                 <div class="input-area"><input type="text" name="word" value=""></div>
-                <button class="button" type="submit"S>検索</button>
+                <button class="button" type="submit">検索</button>
             </form>
         </section>
         
 
         <section class="wrapper">
-            <h2 class="sub-title">投稿内容一覧</h2>
+            <h2 class="sub-title">検索結果一覧</h2>
 <div class="post-container">
     
-                                <?php
-                                $post_tbl = new PostTable();
-                                $regist = $post_tbl->selectPosts();
-                                foreach($regist as $loop):
+<?php
+                                if(isset($_POST['word']) && !empty($_POST['word'])) {
+                                        $word = htmlspecialchars($_POST["word"], ENT_QUOTES, "UTF-8");
+                                        $post_tbl = new PostTable();
+                                        $search = $post_tbl->searchPosts($word);
+                                        foreach($search as $loop):
+                                            
                                 ?>
                                 <div class="post-content">
                                     <div><span class="bold">No：</span><?php echo $loop['id'] ?></div>
@@ -90,7 +79,13 @@
                                     <div class="text-right"><span class="margin-right"><a href="delete.php?id=<?php echo $loop['id'] ?>"><i class="fas fa-eraser"></i>削除</a></span>投稿時間：<?php echo $loop['created_at'] ?></div>
                                 </div>
     
-                    <?php endforeach; ?>
+                                <?php
+                                    endforeach;
+                                }
+                                if(isset($_POST['word']) && empty($_POST['word'])) {
+                                    echo '<p>検索ワードを入力してください</p>';
+                                }
+                                ?>
     
 </div>
         </section>
