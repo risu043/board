@@ -25,18 +25,11 @@
 
 <body>
     <header class="header">
-        <h1 class="title">りすさんの掲示板</h1>
+        <h1 class="title"><a href="./">りすさんの掲示板</a></h1>
     </header>
     <main>
         <section class="wrapper">
             <h2 class="sub-title">新規投稿</h2>
-            <div id="error">
-                <?php
-                $errors = [];
-                foreach($errors as $error){
-                echo $error."<br>";
-                } ?>
-            </div>
             <form action="send.php" method="post" enctype="multipart/form-data">
                 <div class="input-area"><label for="name">名前</label> <input type="text" id="name" name="name" value=""></div>
                 <div class="input-area"><label for="contents">投稿内容</label> <textarea type="text" id="contents" name="contents" value=""></textarea></div>
@@ -60,6 +53,7 @@
 <div class="post-container">
     
 <?php
+                                $search = null;
                                 if(isset($_POST['word']) && !empty($_POST['word'])) {
                                         $word = htmlspecialchars($_POST["word"], ENT_QUOTES, "UTF-8");
                                         $post_tbl = new PostTable();
@@ -82,8 +76,12 @@
                                 <?php
                                     endforeach;
                                 }
+                                
                                 if(isset($_POST['word']) && empty($_POST['word'])) {
                                     echo '<p>検索ワードを入力してください</p>';
+                                }
+                                if(isset($_POST['word']) && !empty($_POST['word']) && $search==null) {
+                                    echo '<p>検索ワードを含む投稿がありません</p>';
                                 }
                                 ?>
     

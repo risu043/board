@@ -1,5 +1,17 @@
 <?php
     require_once "postTable.php";
+    session_start();
+    // リロードしたらセッションデータを消す
+    if(isset($_GET['reload'])){
+    unset($_SESSION['error_message_name']);
+    unset($_SESSION['error_message_contents']);
+    }
+    // エラーメッセージの初期化
+    $error_message_name = "";
+    $error_message_contents = "";
+    // 三項演算子 error_message_nameがあればセット、なければ空の文字列をセット
+    $error_message_name = isset($_SESSION['error_message_name']) ? $_SESSION['error_message_name'] : "";
+    $error_message_contents = isset($_SESSION['error_message_contents']) ? $_SESSION['error_message_contents'] : "";
 ?>
 
 <html lang="ja">
@@ -16,6 +28,8 @@
       href="https://unpkg.com/destyle.css@1.0.5/destyle.css?1.2"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <!-- JS -->
+    <script src="js/script.js" defer></script>
     <!-- fontawesome -->
     <script
       src="https://kit.fontawesome.com/1d29d80e5a.js"
@@ -25,37 +39,34 @@
 
 <body>
     <header class="header">
-        <h1 class="title">りすさんの掲示板</h1>
+        <h1 class="title"><a href="./">りすさんの掲示板</a></h1>
     </header>
     <main>
         <section class="wrapper">
             <h2 class="sub-title">新規投稿</h2>
-            <div id="error">
-                <?php
-                $errors = [];
-                if (isset($_POST['submit'])) {
-                    $name = $_POST["name"];
-                    $contents = $_POST["contents"];
-                    if (empty($name)) {
-                        $errors[] = "名前を入力してください";
-                    }
-                    if (empty($contents)) {
-                        $errors[] = "投稿内容を入力してください";
-                    }
-                }
-                
-                // エラーメッセージがある場合にのみ表示する
-                if (!empty($errors)) {
-                    foreach ($errors as $error) {
-                        echo $error . "<br>";
-                    }
-                } ?>
-            </div>
+            
             <form action="send.php" method="post" enctype="multipart/form-data">
+                <P class="error">
+                    <?php
+                    // エラーメッセージがある場合にのみ表示
+                    if (!empty($error_message_name)) {
+                        echo $error_message_name;
+                    } ?>
+                </P>
                 <div class="input-area"><label for="name">名前</label> <input type="text" id="name" name="name" value=""></div>
+                <P class="error">
+                    <?php
+                    // エラーメッセージがある場合にのみ表示
+                    if (!empty($error_message_contents)) {
+                        echo $error_message_contents;
+                    } ?>
+                </P>
                 <div class="input-area"><label for="contents">投稿内容</label> <textarea type="text" id="contents" name="contents" value=""></textarea></div>
                 <div class="input-area"><label for="image">添付画像</label> <input type="file" id="image" name="image"></div>
                 <button class="button" type="submit" name="submit">投稿</button>
+            </form>
+            <form action="index.php" method="get" id="reload">
+                <input type="hidden" name="reload" value="true">
             </form>
         </section>
         

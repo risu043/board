@@ -10,6 +10,7 @@ COLORS
   --main-color: #ff8fa9;
   --base-color: #ffeee8;
   --white: #fff;
+  --red: #f02d5b;
   --font-color: #3d3333;
   --font-japanese: 'Noto Sans JP', sans-serif; /* 100 - 900 */
   --font-title: 'RocknRoll One', sans-serif; /* 400 nomal */
@@ -114,6 +115,9 @@ h2 {
     font-size: 3rem;
   }
 }
+.title a {
+  color: var(--white);
+}
 /*
     MAIN
 ================================================ */
@@ -129,6 +133,9 @@ form {
   background-color: var(--white);
   border-radius: 10px;
   padding: 1rem;
+}
+.error {
+  color: var(--red);
 }
 .input-area {
   margin-bottom: 0.5rem;
